@@ -15,6 +15,7 @@ public class Swatter {
     private boolean isActive;
     private long time;
     private Random r;
+    private int multiplier;
 
     private int width, height;
 
@@ -28,6 +29,7 @@ public class Swatter {
         this.isActive = false;
         this.rectangle = new Rectangle();
         this.r = new Random();
+        this.multiplier = 1;
     }
 
     public void update(float delta) {
@@ -45,7 +47,7 @@ public class Swatter {
     }
 
     private void attack() {
-        velocity.y = 100;
+        velocity.y = 200 * multiplier;
     }
 
     public boolean collides(Fly fly) {
@@ -71,7 +73,7 @@ public class Swatter {
     public void setActive(boolean active, float x) {
         isActive = active;
         if (active) {
-            time = System.currentTimeMillis() + r.nextInt(4) * 1000;
+            time = System.currentTimeMillis() + r.nextInt(3) * 1000;
             position.x = x - 95;
             if (!isFlip() && position.x > 300) {
                 isFlip = true;
@@ -89,6 +91,10 @@ public class Swatter {
             time = 0;
             rectangle = new Rectangle();
         }
+    }
+
+    public void setMultiplier(int multiplier) {
+        this.multiplier = multiplier;
     }
 
     public float getX() {

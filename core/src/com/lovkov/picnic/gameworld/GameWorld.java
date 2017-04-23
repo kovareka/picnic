@@ -18,7 +18,7 @@ public class GameWorld {
     }
 
     public GameWorld() {
-        this.fly = new Fly(33, 195,66, 48);
+        this.fly = new Fly(40, 170,66, 48);
         this.swatter = new Swatter(0, 0, 500, 100);
         this.scroller = new ScrollHandler(340);
         this.currentState = GameState.READY;
@@ -66,19 +66,18 @@ public class GameWorld {
             }
 
             if (fly.isAlive()) {
-                if (fly.isSitsInFood()) {
-                    addScore();
-                    if (!swatter.isActive()) {
-                        swatter.setActive(true, fly.getX() + 33);
-                    }
-                }
-
                 if (score >= 1000 * level && !swatter.isActive()) {
                     level++;
                     scroller.getCurrentFood().setScored(true);
                     scroller.scroll();
                     fly.setScroll(true);
                     swatter.setActive(false, 0);
+                    swatter.setMultiplier(level);
+                } else if (fly.isSitsInFood()) {
+                    addScore();
+                    if (!swatter.isActive() && !scroller.isScroll()) {
+                        swatter.setActive(true, fly.getX() + 33);
+                    }
                 }
             }
         }

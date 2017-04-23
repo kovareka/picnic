@@ -29,6 +29,7 @@ public class Food extends Scrollable {
         super.reset(newX);
         isScored = false;
         setRandom();
+        rectangle = new Rectangle();
     }
 
     private void setRandom() {

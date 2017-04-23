@@ -145,6 +145,8 @@ public class Fly {
 
     public void setScroll(boolean scroll) {
         isScroll = scroll;
+        isSitsInFood = false;
+        flies = true;
     }
 
     public boolean isScroll() {
