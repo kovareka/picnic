@@ -102,8 +102,8 @@ public class GameRenderer {
         }
 
         if (world.isRunning()) {
-            AssetLoader.shadow.draw(batcher, "" + world.getScore(), 0, 0);
-            AssetLoader.font.draw(batcher, "" + world.getScore(), 0, 0);
+            AssetLoader.shadow.draw(batcher, String.valueOf(world.getScore()), 0, 0);
+            AssetLoader.font.draw(batcher, String.valueOf(world.getScore()), 0, 0);
         }
 
         if (world.isReady()) {
