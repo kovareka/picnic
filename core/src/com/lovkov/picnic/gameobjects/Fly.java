@@ -76,7 +76,7 @@ public class Fly {
         }
 
         if (isFlies() && isAlive()) {
-            AssetLoader.flap.loop(0.1f);
+            AssetLoader.flap.loop(0.5f);
         } else {
             AssetLoader.flap.stop();
         }

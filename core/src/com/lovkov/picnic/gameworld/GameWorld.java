@@ -49,7 +49,8 @@ public class GameWorld {
 
             if (swatter.isActive()) {
                 if (swatter.collides(fly)) {
-                    AssetLoader.hit.play(0.2f);
+                    AssetLoader.flap.stop();
+                    AssetLoader.hit.play();
                     fly.setAlive(false);
                     currentState = GameState.GAMEOVER;
 
@@ -59,7 +60,8 @@ public class GameWorld {
                     }
                 } else if (scroller.collides(swatter)) {
                     swatter.setActive(false, 0);
-                    AssetLoader.hit.play(0.2f);
+                    AssetLoader.flap.stop();
+                    AssetLoader.hit.play();
                 }
             }
 
