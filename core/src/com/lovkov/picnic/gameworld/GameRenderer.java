@@ -15,6 +15,7 @@ public class GameRenderer {
     private static final String START = "Press SPACE for start";
     private static final String GAMEOVER = "Game Over!";
     private static final String TRY_AGAIN = "Press SPACE for restart";
+    private static final String CONTROLS = "SPACE - take off, ARROWS - move";
 
     private GameWorld world;
 
@@ -108,15 +109,17 @@ public class GameRenderer {
                     swatter.getHeight());
         }
 
-        if (fly.isFlies() && fly.isAlive()) {
-            batcher.draw((TextureRegion) flyAnimation.getKeyFrame(runTime),
-                    fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
-                    fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
-                    fly.getHeight());
-        } else {
-            batcher.draw(flyMid, fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
-                    fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
-                    fly.getHeight());
+        if (!world.isReady()) {
+            if (fly.isFlies() && fly.isAlive()) {
+                batcher.draw((TextureRegion) flyAnimation.getKeyFrame(runTime),
+                        fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
+                        fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
+                        fly.getHeight());
+            } else {
+                batcher.draw(flyMid, fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
+                        fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
+                        fly.getHeight());
+            }
         }
 
         if (world.isRunning()) {
@@ -125,11 +128,20 @@ public class GameRenderer {
         }
 
         if (world.isReady()) {
-            AssetLoader.headersShadow.draw(batcher, TITLE, 400 - TITLE.length() * 37 / 2, 110);
+            AssetLoader.shadow.getData().setScale(1.5f, -1.5f);
+            AssetLoader.shadow.draw(batcher, TITLE, 400 - TITLE.length() * 37 / 2, 110);
             AssetLoader.fontHeaders.draw(batcher, TITLE, 400 - TITLE.length() * 37 / 2, 110);
+            AssetLoader.shadow.getData().setScale(1f, -1f);
 
             AssetLoader.shadow.draw(batcher, START, 400 - START.length() * 26 / 2, 190);
             AssetLoader.font.draw(batcher, START, 400 - START.length() * 26 / 2, 190);
+
+            AssetLoader.shadow.getData().setScale(0.5f, -0.5f);
+            AssetLoader.font.getData().setScale(0.5f, -0.5f);
+            AssetLoader.shadow.draw(batcher, CONTROLS, 400 - CONTROLS.length() * 13 / 2, 300);
+            AssetLoader.font.draw(batcher, CONTROLS, 400 - CONTROLS.length() * 13 / 2, 300);
+            AssetLoader.shadow.getData().setScale(1f, -1f);
+            AssetLoader.font.getData().setScale(1f, -1f);
         } else {
             if (world.isGameOver() || world.isHighScore()) {
                 AssetLoader.flap.stop();

@@ -19,7 +19,7 @@ public class AssetLoader {
     public static Animation flyAnimation;
     public static TextureRegion fly, flyUp, flyDown;
     public static TextureRegion sandwich, cake, mud;
-    public static BitmapFont font, shadow, fontHeaders, headersShadow;
+    public static BitmapFont font, shadow, fontHeaders;
     public static Sound flap, hit;
 
     public static void load() {
@@ -67,8 +67,6 @@ public class AssetLoader {
         shadow.getData().setScale(1f, -1f);
         fontHeaders = new BitmapFont(Gdx.files.internal("data/headers.fnt"));
         fontHeaders.getData().setScale(1.5f, -1.5f);
-        headersShadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
-        headersShadow.getData().setScale(1.5f, -1.5f);
 
         flap = Gdx.audio.newSound(Gdx.files.internal("data/fly.wav"));
         hit = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
@@ -88,7 +86,6 @@ public class AssetLoader {
         font.dispose();
         shadow.dispose();
         fontHeaders.dispose();
-        headersShadow.dispose();
         flap.dispose();
         hit.dispose();
     }
