@@ -81,7 +81,7 @@ public class GameRenderer {
                     swatter.getHeight());
         }
 
-        if (fly.isFlies()) {
+        if (fly.isFlies() && fly.isAlive()) {
             batcher.draw((TextureRegion) flyAnimation.getKeyFrame(runTime),
                     fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
                     fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),

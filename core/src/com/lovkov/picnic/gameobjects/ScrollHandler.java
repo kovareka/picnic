@@ -24,12 +24,8 @@ public class ScrollHandler {
         food1.update(delta);
         food2.update(delta);
 
-        if (food1.getX() <= 255 && !food1.isScored()) {
-            isScroll = false;
-            stop();
-        }
-
-        if (food2.getX() <= 255 && !food2.isScored()) {
+        if ((food1.getX() <= 255 && !food1.isScored()) ||
+                (food2.getX() <= 255 && !food2.isScored())) {
             isScroll = false;
             stop();
         }
@@ -72,7 +68,7 @@ public class ScrollHandler {
     }
 
     public Food getCurrentFood() {
-        return food1.getX() > 255 ? food2 : food1;
+        return food1.getX() > 800 ? food2 : food1;
     }
 
     public boolean isScroll() {

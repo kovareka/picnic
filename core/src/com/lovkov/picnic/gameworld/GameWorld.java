@@ -9,7 +9,7 @@ public class GameWorld {
     private Swatter swatter;
     private ScrollHandler scroller;
     private int score = 0;
-    private long time = System.currentTimeMillis();
+    //private long time = System.currentTimeMillis();
     private int level = 1;
 
     public GameWorld() {
@@ -22,9 +22,13 @@ public class GameWorld {
         fly.update(delta);
         swatter.update(delta);
         scroller.update(delta);
-        fly.collides(scroller.getCurrentFood());
 
         if (!scroller.isScroll()) {
+            if (fly.isScroll()) {
+                fly.setScroll(false);
+            }
+            fly.collides(scroller.getCurrentFood());
+
             if (swatter.isActive()) {
                 if (swatter.collides(fly)) {
                     fly.setAlive(false);
@@ -39,21 +43,26 @@ public class GameWorld {
                     swatter.setActive(true, fly.getX() + 33);
                 }
             }
-        }
 
-        if (!scroller.isScroll() && score >= 3*level + 1 && !swatter.isActive()) {
-            level++;
-            scroller.getCurrentFood().setScored(true);
-            scroller.scroll();
+            if (score >= 1000 * level && !swatter.isActive()) {
+                level++;
+                scroller.getCurrentFood().setScored(true);
+                scroller.scroll();
+                fly.setScroll(true);
+                swatter.setActive(false, 0);
+            }
         }
     }
 
     private void addScore() {
+        /*
         long t = System.currentTimeMillis();
         if (time + 1000 < t) {
             score++;
             time = t;
         }
+         */
+        score++;
     }
 
     public Fly getFly(){

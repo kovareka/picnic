@@ -11,6 +11,8 @@ public class Fly {
     private boolean flies;
     private boolean isSitsInFood;
     private boolean isAlive;
+    private boolean isScroll;
+    private Vector2 startPosition;
 
     private Rectangle rectangle;
 
@@ -21,35 +23,56 @@ public class Fly {
         this.width = width;
         this.height = height;
         this.position = new Vector2(x, y);
+        this.startPosition = new Vector2(x, y);
         this.velocity = new Vector2(0,0);
         this.rectangle = new Rectangle();
         this.flies = true;
         this.isSitsInFood = false;
         this.isAlive = true;
+        this.isScroll = false;
     }
 
     public void update(float delta) {
-        if (position.x <= 0) {
-            position.x = 0;
+        if (!isScroll) {
+            if (position.x <= 0) {
+                position.x = 0;
+            }
+
+            if (position.x >= 730) {
+                position.x = 730;
+            }
+
+            if (position.y <= 0) {
+                position.y = 0;
+            }
+
+            if (position.y >= 292) {
+                position.y = 292;
+                flies = false;
+                velocity.y = 0;
+            }
+
+            if (isAlive()) {
+                position.add(velocity.cpy().scl(delta));
+
+                rectangle.set(position.x, position.y, 62, 44);
+            }
+        } else {
+            Vector2 currentPosition = position;
+            float elapsed = 0.01f;
+
+            float distance = Vector2.dst(position.x, position.y, startPosition.x, startPosition.y);
+            float directionX = (startPosition.x - position.x) / distance;
+            float directionY = (startPosition.y - position.y) / distance;
+
+            position.x += directionX * 400 * elapsed;
+            position.y += directionY * 400 * elapsed;
+            if (Vector2.dst(position.x, position.y, currentPosition.x, currentPosition.y) >= distance - 5) {
+                position.x = startPosition.x;
+                position.y = startPosition.y;
+                isScroll = false;
+            }
         }
-
-        if (position.x >= 730) {
-            position.x = 730;
-        }
-
-        if (position.y <= 0) {
-            position.y = 0;
-        }
-
-        if (position.y >= 292) {
-            position.y = 292;
-            flies = false;
-            velocity.y = 0;
-        }
-
-        position.add(velocity.cpy().scl(delta));
-
-        rectangle.set(position.x, position.y, 62, 44);
     }
 
     public void move(Direction direction, boolean isMove) {
@@ -105,6 +128,14 @@ public class Fly {
         }
     }
 
+    public void setScroll(boolean scroll) {
+        isScroll = scroll;
+    }
+
+    public boolean isScroll() {
+        return isScroll;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }
@@ -118,9 +149,11 @@ public class Fly {
     }
 
     public void setFlies(boolean flies) {
-        this.flies = flies;
-        position.y -= 10;
-        isSitsInFood = false;
+        if (isAlive()) {
+            this.flies = flies;
+            position.y -= 10;
+            isSitsInFood = false;
+        }
     }
 
     public boolean isFlip() {
