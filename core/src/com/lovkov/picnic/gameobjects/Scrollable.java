@@ -10,7 +10,7 @@ public class Scrollable {
     private boolean isScrolledLeft;
     private float scrollSpeed;
 
-    public Scrollable(float x, float y, int width, int height, float scrollSpeed) {
+    Scrollable(float x, float y, int width, int height, float scrollSpeed) {
         this.position = new Vector2(x, y);
         this.velocity = new Vector2(scrollSpeed, 0);
         this.width = width;
@@ -27,7 +27,7 @@ public class Scrollable {
         }
     }
 
-    public void scroll() {
+    void scroll() {
         velocity.x = scrollSpeed;
     }
 

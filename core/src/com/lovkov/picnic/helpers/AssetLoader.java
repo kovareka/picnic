@@ -9,16 +9,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
-    public static Texture texture;
+    private static Texture texture;
 
-    public static Preferences prefs;
+    private static Preferences prefs;
 
+    public static TextureRegion bg;
     public static TextureRegion tableCloth;
     public static TextureRegion swatter;
     public static Animation flyAnimation;
     public static TextureRegion fly, flyUp, flyDown;
     public static TextureRegion sandwich, cake, mud;
-    public static BitmapFont font, shadow;
+    public static BitmapFont font, shadow, fontHeaders, headersShadow;
     public static Sound flap, hit;
 
     public static void load() {
@@ -30,6 +31,9 @@ public class AssetLoader {
 
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        bg = new TextureRegion(texture, 30, 348, 800, 340);
+        bg.flip(false, true);
 
         fly = new TextureRegion(texture, 0, 0, 66, 48);
         fly.flip(false, true);
@@ -61,6 +65,10 @@ public class AssetLoader {
         font.getData().setScale(1f, -1f);
         shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
         shadow.getData().setScale(1f, -1f);
+        fontHeaders = new BitmapFont(Gdx.files.internal("data/headers.fnt"));
+        fontHeaders.getData().setScale(1.5f, -1.5f);
+        headersShadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
+        headersShadow.getData().setScale(1.5f, -1.5f);
 
         flap = Gdx.audio.newSound(Gdx.files.internal("data/fly.wav"));
         hit = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
@@ -79,6 +87,8 @@ public class AssetLoader {
         texture.dispose();
         font.dispose();
         shadow.dispose();
+        fontHeaders.dispose();
+        headersShadow.dispose();
         flap.dispose();
         hit.dispose();
     }

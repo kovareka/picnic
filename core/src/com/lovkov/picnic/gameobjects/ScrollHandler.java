@@ -5,8 +5,8 @@ public class ScrollHandler {
     private Food food1, food2;
     private boolean isScroll;
 
-    public static final int SCROLL_SPEED = -400;
-    public static final int GAP = 800;
+    private static final int SCROLL_SPEED = -400;
+    private static final int GAP = 800;
 
     public ScrollHandler(float yPos) {
         this.tableCloth1 = new TableCloth(0, yPos, 420, 60, SCROLL_SPEED);
@@ -54,7 +54,7 @@ public class ScrollHandler {
         tableCloth3.scroll();
     }
 
-    public void stop() {
+    private void stop() {
         isScroll = false;
         food1.stop();
         food2.stop();

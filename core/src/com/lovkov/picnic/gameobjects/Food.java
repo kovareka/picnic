@@ -11,7 +11,7 @@ public class Food extends Scrollable {
     private int random;
     private boolean isMud;
 
-    public Food(float x, float y, int width, int height, float scrollSpeed) {
+    Food(float x, float y, int width, int height, float scrollSpeed) {
         super(x, y, width, height, scrollSpeed);
         this.rectangle = new Rectangle();
         this.r = new Random();

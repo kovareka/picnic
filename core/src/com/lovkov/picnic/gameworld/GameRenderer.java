@@ -11,37 +11,35 @@ import com.lovkov.picnic.gameobjects.*;
 import com.lovkov.picnic.helpers.AssetLoader;
 
 public class GameRenderer {
+    private static final String TITLE = "RUIN A PICNIC!";
     private static final String START = "Press SPACE for start";
     private static final String GAMEOVER = "Game Over!";
     private static final String TRY_AGAIN = "Press SPACE for restart";
 
     private GameWorld world;
-    private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer;
 
     //Game Objects
     private Fly fly;
     private Swatter swatter;
-    private ScrollHandler scroller;
     private TableCloth tableCloth1, tableCloth2, tableCloth3;
     private Food food1, food2;
 
     // Assets
     private TextureRegion tableClothTexture;
     private Animation flyAnimation;
-    private TextureRegion flyMid, sandwich, cake, swatterTexture, mud;
+    private TextureRegion flyMid, sandwich, cake, swatterTexture, mud, bg;
 
     private SpriteBatch batcher;
 
     public GameRenderer(GameWorld world) {
         this.world = world;
-        this.camera = new OrthographicCamera();
+        OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(true, 800, 400);
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(camera.combined);
 
-        shapeRenderer = new ShapeRenderer();
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         initGameObjects();
@@ -67,16 +65,36 @@ public class GameRenderer {
         }
     }
 
+    private void initGameObjects() {
+        this.fly = world.getFly();
+        this.swatter = world.getSwatter();
+        ScrollHandler scroller = world.getScroller();
+        this.tableCloth1 = scroller.getTableCloth1();
+        this.tableCloth2 = scroller.getTableCloth2();
+        this.tableCloth3 = scroller.getTableCloth3();
+        this.food1 = scroller.getFood1();
+        this.food2 = scroller.getFood2();
+    }
+
+    private void initAssets() {
+        this.tableClothTexture = AssetLoader.tableCloth;
+        this.flyMid = AssetLoader.fly;
+        this.swatterTexture = AssetLoader.swatter;
+        this.flyAnimation = AssetLoader.flyAnimation;
+        this.sandwich = AssetLoader.sandwich;
+        this.cake = AssetLoader.cake;
+        this.mud = AssetLoader.mud;
+        this.bg = AssetLoader.bg;
+    }
+
     public void render(float runTime) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(169/255.0f, 214/255.0f, 183/255.0f, 1f);
-        shapeRenderer.rect(0, 0, 800, 400);
-        shapeRenderer.end();
-
         batcher.begin();
+
+        batcher.disableBlending();
+        batcher.draw(bg, 0, 0, 800, 340);
+        batcher.enableBlending();
 
         drawTableCloth();
 
@@ -107,8 +125,11 @@ public class GameRenderer {
         }
 
         if (world.isReady()) {
-            AssetLoader.shadow.draw(batcher, START, 400 - START.length() * 26 / 2, 150);
-            AssetLoader.font.draw(batcher, START, 400 - START.length() * 26 / 2, 150);
+            AssetLoader.headersShadow.draw(batcher, TITLE, 400 - TITLE.length() * 37 / 2, 110);
+            AssetLoader.fontHeaders.draw(batcher, TITLE, 400 - TITLE.length() * 37 / 2, 110);
+
+            AssetLoader.shadow.draw(batcher, START, 400 - START.length() * 26 / 2, 190);
+            AssetLoader.font.draw(batcher, START, 400 - START.length() * 26 / 2, 190);
         } else {
             if (world.isGameOver() || world.isHighScore()) {
                 AssetLoader.flap.stop();
@@ -126,26 +147,5 @@ public class GameRenderer {
         }
 
         batcher.end();
-    }
-
-    private void initGameObjects() {
-        this.fly = world.getFly();
-        this.swatter = world.getSwatter();
-        this.scroller = world.getScroller();
-        this.tableCloth1 = scroller.getTableCloth1();
-        this.tableCloth2 = scroller.getTableCloth2();
-        this.tableCloth3 = scroller.getTableCloth3();
-        this.food1 = scroller.getFood1();
-        this.food2 = scroller.getFood2();
-    }
-
-    private void initAssets() {
-        this.tableClothTexture = AssetLoader.tableCloth;
-        this.flyMid = AssetLoader.fly;
-        this.swatterTexture = AssetLoader.swatter;
-        this.flyAnimation = AssetLoader.flyAnimation;
-        this.sandwich = AssetLoader.sandwich;
-        this.cake = AssetLoader.cake;
-        this.mud = AssetLoader.mud;
     }
 }
