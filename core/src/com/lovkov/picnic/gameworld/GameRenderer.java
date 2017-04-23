@@ -54,8 +54,8 @@ public class GameRenderer {
     }
 
     private void drawFood() {
-        batcher.draw(sandwich, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
-        batcher.draw(sandwich, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
+        batcher.draw(food1.getRandom() == 1 ? sandwich : cake, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
+        batcher.draw(food2.getRandom() == 1 ? sandwich : cake, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
     }
 
     public void render(float runTime) {

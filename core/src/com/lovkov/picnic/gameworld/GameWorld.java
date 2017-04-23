@@ -41,7 +41,7 @@ public class GameWorld {
             }
         }
 
-        if (!scroller.isScroll() && score >= 3*level + 1) {
+        if (!scroller.isScroll() && score >= 3*level + 1 && !swatter.isActive()) {
             level++;
             scroller.getCurrentFood().setScored(true);
             scroller.scroll();
