@@ -3,6 +3,7 @@ package com.lovkov.picnic.gameobjects;
 public class ScrollHandler {
     private TableCloth tableCloth1, tableCloth2, tableCloth3;
     private Food food1, food2;
+    private boolean isScroll;
 
     public static final int SCROLL_SPEED = -400;
     public static final int GAP = 800;
@@ -11,8 +12,9 @@ public class ScrollHandler {
         this.tableCloth1 = new TableCloth(0, yPos, 420, 60, SCROLL_SPEED);
         this.tableCloth2 = new TableCloth(tableCloth1.getTailX(), yPos, 420, 60, SCROLL_SPEED);
         this.tableCloth3 = new TableCloth(tableCloth2.getTailX(), yPos, 420, 60, SCROLL_SPEED);
-        this.food1 = new Food(1350, yPos - 70, 300,70, SCROLL_SPEED);
+        this.food1 = new Food(1050, yPos - 70, 300,70, SCROLL_SPEED);
         this.food2 = new Food(food1.getTailX() + GAP, yPos - 70, 300,70, SCROLL_SPEED);
+        this.isScroll = true;
     }
 
     public void update(float delta) {
@@ -22,9 +24,13 @@ public class ScrollHandler {
         food1.update(delta);
         food2.update(delta);
 
-        if (food1.getX() >= 250 && food1.getX() <= 260) {
+        if (food1.getX() <= 255 && !food1.isScored()) {
+            isScroll = false;
             stop();
-        } else if (food2.getX() >= 250 && food2.getX() <= 260) {
+        }
+
+        if (food2.getX() <= 255 && !food2.isScored()) {
+            isScroll = false;
             stop();
         }
 
@@ -43,7 +49,17 @@ public class ScrollHandler {
         }
     }
 
+    public void scroll() {
+        isScroll = true;
+        food1.scroll();
+        food2.scroll();
+        tableCloth1.scroll();
+        tableCloth2.scroll();
+        tableCloth3.scroll();
+    }
+
     public void stop() {
+        isScroll = false;
         food1.stop();
         food2.stop();
         tableCloth1.stop();
@@ -51,8 +67,16 @@ public class ScrollHandler {
         tableCloth3.stop();
     }
 
-    public boolean collides(Fly fly) {
-        return (food1.collides(fly) || food2.collides(fly));
+    public boolean collides(Swatter swatter) {
+        return (food1.collides(swatter) || food2.collides(swatter));
+    }
+
+    public Food getCurrentFood() {
+        return food1.getX() > 255 ? food2 : food1;
+    }
+
+    public boolean isScroll() {
+        return isScroll;
     }
 
     public TableCloth getTableCloth1() {

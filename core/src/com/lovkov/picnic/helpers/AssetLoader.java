@@ -10,9 +10,10 @@ public class AssetLoader {
     public static Texture texture;
 
     public static TextureRegion tableCloth;
+    public static TextureRegion swatter;
     public static Animation flyAnimation;
     public static TextureRegion fly, flyUp, flyDown;
-    public static TextureRegion food;
+    public static TextureRegion sandwich, cake;
     public static BitmapFont font, shadow;
 
     public static void load() {
@@ -35,8 +36,13 @@ public class AssetLoader {
         tableCloth = new TextureRegion(texture, 0, 48, 420, 60);
         tableCloth.flip(false, true);
 
-        food = new TextureRegion(texture, 0, 108, 300, 70);
-        food.flip(false, true);
+        sandwich = new TextureRegion(texture, 0, 108, 300, 70);
+        sandwich.flip(false, true);
+        cake = new TextureRegion(texture, 300, 108, 300, 70);
+        cake.flip(false, true);
+
+        swatter = new TextureRegion(texture, 0, 178, 500, 100);
+        swatter.flip(false, true);
 
         font = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
         font.getData().setScale(1.25f, -1.25f);

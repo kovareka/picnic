@@ -1,17 +1,13 @@
 package com.lovkov.picnic.gameworld;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.lovkov.picnic.gameobjects.Fly;
-import com.lovkov.picnic.gameobjects.Food;
-import com.lovkov.picnic.gameobjects.ScrollHandler;
-import com.lovkov.picnic.gameobjects.TableCloth;
+import com.lovkov.picnic.gameobjects.*;
 import com.lovkov.picnic.helpers.AssetLoader;
 
 public class GameRenderer {
@@ -21,6 +17,7 @@ public class GameRenderer {
 
     //Game Objects
     private Fly fly;
+    private Swatter swatter;
     private ScrollHandler scroller;
     private TableCloth tableCloth1, tableCloth2, tableCloth3;
     private Food food1, food2;
@@ -28,7 +25,7 @@ public class GameRenderer {
     // Assets
     private TextureRegion tableClothTexture;
     private Animation flyAnimation;
-    private TextureRegion flyMid, food;
+    private TextureRegion flyMid, sandwich, cake, swatterTexture;
 
     private SpriteBatch batcher;
 
@@ -57,8 +54,8 @@ public class GameRenderer {
     }
 
     private void drawFood() {
-        batcher.draw(food, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
-        batcher.draw(food, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
+        batcher.draw(sandwich, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
+        batcher.draw(sandwich, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
     }
 
     public void render(float runTime) {
@@ -76,13 +73,21 @@ public class GameRenderer {
 
         drawFood();
 
+        if (swatter.isShow()) {
+            batcher.draw(swatterTexture,
+                    swatter.isFlip() ? swatter.getX() + swatter.getWidth() : swatter.getX(),
+                    swatter.getY(),
+                    swatter.isFlip() ? - swatter.getWidth() : swatter.getWidth(),
+                    swatter.getHeight());
+        }
+
         if (fly.isFlies()) {
             batcher.draw((TextureRegion) flyAnimation.getKeyFrame(runTime),
-                    fly.isFlip() ? fly.getX()+ fly.getWidth() : fly.getX(),
+                    fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
                     fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
                     fly.getHeight());
         } else {
-            batcher.draw(flyMid, fly.isFlip() ? fly.getX()+ fly.getWidth() : fly.getX(),
+            batcher.draw(flyMid, fly.isFlip() ? fly.getX() + fly.getWidth() : fly.getX(),
                     fly.getY(), fly.isFlip() ? - fly.getWidth() : fly.getWidth(),
                     fly.getHeight());
         }
@@ -91,22 +96,11 @@ public class GameRenderer {
         AssetLoader.font.draw(batcher, "" + world.getScore(), 0, 0);
 
         batcher.end();
-
-        /*
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(fly.getRectangle().x + 2, fly.getRectangle().y + 2,
-                fly.getRectangle().width, fly.getRectangle().height);
-        shapeRenderer.rect(food1.getRectangle().x, food1.getRectangle().y,
-                food1.getRectangle().width, food1.getRectangle().height);
-        shapeRenderer.rect(food2.getRectangle().x, food2.getRectangle().y,
-                food2.getRectangle().width, food2.getRectangle().height);
-        shapeRenderer.end();
-         */
     }
 
     private void initGameObjects() {
         this.fly = world.getFly();
+        this.swatter = world.getSwatter();
         this.scroller = world.getScroller();
         this.tableCloth1 = scroller.getTableCloth1();
         this.tableCloth2 = scroller.getTableCloth2();
@@ -118,7 +112,9 @@ public class GameRenderer {
     private void initAssets() {
         this.tableClothTexture = AssetLoader.tableCloth;
         this.flyMid = AssetLoader.fly;
+        this.swatterTexture = AssetLoader.swatter;
         this.flyAnimation = AssetLoader.flyAnimation;
-        this.food = AssetLoader.food;
+        this.sandwich = AssetLoader.sandwich;
+        this.cake = AssetLoader.cake;
     }
 }

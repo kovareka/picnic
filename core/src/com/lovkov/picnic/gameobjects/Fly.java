@@ -10,6 +10,7 @@ public class Fly {
     private boolean flip;
     private boolean flies;
     private boolean isSitsInFood;
+    private boolean isAlive;
 
     private Rectangle rectangle;
 
@@ -24,6 +25,7 @@ public class Fly {
         this.rectangle = new Rectangle();
         this.flies = true;
         this.isSitsInFood = false;
+        this.isAlive = true;
     }
 
     public void update(float delta) {
@@ -51,21 +53,23 @@ public class Fly {
     }
 
     public void move(Direction direction, boolean isMove) {
-        switch (direction) {
-            case UP:
-                if (isFlies()) velocity.y = isMove ? -180 : 0;
-                break;
-            case DOWN:
-                if (isFlies()) velocity.y = isMove ? 180 : 0;
-                break;
-            case RIGHT:
-                velocity.x = isMove ? 180 : 0;
-                flip = false;
-                break;
-            case LEFT:
-                velocity.x = isMove ? -180: 0;
-                flip = true;
-                break;
+        if (isAlive) {
+            switch (direction) {
+                case UP:
+                    if (isFlies()) velocity.y = isMove ? -200 : 0;
+                    break;
+                case DOWN:
+                    if (isFlies()) velocity.y = isMove ? 200 : 0;
+                    break;
+                case RIGHT:
+                    velocity.x = isMove ? 200 : 0;
+                    flip = false;
+                    break;
+                case LEFT:
+                    velocity.x = isMove ? -200: 0;
+                    flip = true;
+                    break;
+            }
         }
     }
 
@@ -99,6 +103,14 @@ public class Fly {
                 position.x = food.getTailX() - width;
             }
         }
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 
     public boolean isFlies() {

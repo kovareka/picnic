@@ -25,8 +25,8 @@ public class Food extends Scrollable {
         isScored = false;
     }
 
-    boolean collides(Fly fly) {
-        return position.x < fly.getX() + fly.getWidth() && Intersector.overlaps(fly.getRectangle(), rectangle);
+    boolean collides(Swatter swatter) {
+        return position.y <= swatter.getY() + swatter.getHeight();
     }
 
     public Rectangle getRectangle() {
