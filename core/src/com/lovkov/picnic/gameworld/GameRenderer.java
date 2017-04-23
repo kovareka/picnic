@@ -29,7 +29,7 @@ public class GameRenderer {
     // Assets
     private TextureRegion tableClothTexture;
     private Animation flyAnimation;
-    private TextureRegion flyMid, sandwich, cake, swatterTexture;
+    private TextureRegion flyMid, sandwich, cake, swatterTexture, mud;
 
     private SpriteBatch batcher;
 
@@ -60,6 +60,11 @@ public class GameRenderer {
     private void drawFood() {
         batcher.draw(food1.getRandom() == 1 ? sandwich : cake, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
         batcher.draw(food2.getRandom() == 1 ? sandwich : cake, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
+        if (food1.isMud()) {
+            batcher.draw(mud, food1.getX(), food1.getY(), food1.getWidth(), food1.getHeight());
+        } else if (food2.isMud()) {
+            batcher.draw(mud, food2.getX(), food2.getY(), food2.getWidth(), food2.getHeight());
+        }
     }
 
     public void render(float runTime) {
@@ -141,5 +146,6 @@ public class GameRenderer {
         this.flyAnimation = AssetLoader.flyAnimation;
         this.sandwich = AssetLoader.sandwich;
         this.cake = AssetLoader.cake;
+        this.mud = AssetLoader.mud;
     }
 }

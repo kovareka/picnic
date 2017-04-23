@@ -17,7 +17,7 @@ public class AssetLoader {
     public static TextureRegion swatter;
     public static Animation flyAnimation;
     public static TextureRegion fly, flyUp, flyDown;
-    public static TextureRegion sandwich, cake;
+    public static TextureRegion sandwich, cake, mud;
     public static BitmapFont font, shadow;
     public static Sound flap, hit;
 
@@ -49,8 +49,10 @@ public class AssetLoader {
 
         sandwich = new TextureRegion(texture, 0, 108, 300, 70);
         sandwich.flip(false, true);
-        cake = new TextureRegion(texture, 300, 108, 300, 70);
+        cake = new TextureRegion(texture, 420, 38, 300, 70);
         cake.flip(false, true);
+        mud = new TextureRegion(texture, 300, 108, 300, 70);
+        mud.flip(false, true);
 
         swatter = new TextureRegion(texture, 0, 178, 500, 100);
         swatter.flip(false, true);

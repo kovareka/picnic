@@ -9,12 +9,14 @@ public class Food extends Scrollable {
     private boolean isScored = false;
     private Random r;
     private int random;
+    private boolean isMud;
 
     public Food(float x, float y, int width, int height, float scrollSpeed) {
         super(x, y, width, height, scrollSpeed);
         this.rectangle = new Rectangle();
         this.r = new Random();
         setRandom();
+        isMud = false;
     }
 
     @Override
@@ -30,6 +32,7 @@ public class Food extends Scrollable {
         isScored = false;
         setRandom();
         rectangle = new Rectangle();
+        isMud = false;
     }
 
     private void setRandom() {
@@ -42,6 +45,14 @@ public class Food extends Scrollable {
 
     boolean collides(Swatter swatter) {
         return position.y <= swatter.getY() + swatter.getHeight();
+    }
+
+    public boolean isMud() {
+        return isMud;
+    }
+
+    public void setMud(boolean mud) {
+        isMud = mud;
     }
 
     public Rectangle getRectangle() {

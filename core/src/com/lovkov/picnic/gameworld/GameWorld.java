@@ -69,6 +69,7 @@ public class GameWorld {
                 if (score >= 1000 * level && !swatter.isActive()) {
                     level++;
                     scroller.getCurrentFood().setScored(true);
+                    scroller.getCurrentFood().setMud(true);
                     scroller.scroll();
                     fly.setScroll(true);
                     swatter.setActive(false, 0);
@@ -114,6 +115,10 @@ public class GameWorld {
 
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public Fly getFly(){
