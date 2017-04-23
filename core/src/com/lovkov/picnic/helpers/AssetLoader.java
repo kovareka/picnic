@@ -1,6 +1,8 @@
 package com.lovkov.picnic.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,14 +11,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
     public static Texture texture;
 
+    public static Preferences prefs;
+
     public static TextureRegion tableCloth;
     public static TextureRegion swatter;
     public static Animation flyAnimation;
     public static TextureRegion fly, flyUp, flyDown;
     public static TextureRegion sandwich, cake;
     public static BitmapFont font, shadow;
+    public static Sound flap, hit;
 
     public static void load() {
+        prefs = Gdx.app.getPreferences("Picnic");
+
+        if (!prefs.contains("highScore")) {
+            prefs.putInteger("highScore", 0);
+        }
+
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -45,14 +56,28 @@ public class AssetLoader {
         swatter.flip(false, true);
 
         font = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
-        font.getData().setScale(1.25f, -1.25f);
+        font.getData().setScale(1f, -1f);
         shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
-        shadow.getData().setScale(1.25f, -1.25f);
+        shadow.getData().setScale(1f, -1f);
+
+        flap = Gdx.audio.newSound(Gdx.files.internal("data/fly.wav"));
+        hit = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
+    }
+
+    public static void setHighScore(int score) {
+        prefs.putInteger("highScore", score);
+        prefs.flush();
+    }
+
+    public static int getHighScore() {
+        return prefs.getInteger("highScore");
     }
 
     public static void dispose() {
         texture.dispose();
         font.dispose();
         shadow.dispose();
+        flap.dispose();
+        hit.dispose();
     }
 }

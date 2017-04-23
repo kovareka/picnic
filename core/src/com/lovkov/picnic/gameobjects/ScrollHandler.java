@@ -14,7 +14,7 @@ public class ScrollHandler {
         this.tableCloth3 = new TableCloth(tableCloth2.getTailX(), yPos, 420, 60, SCROLL_SPEED);
         this.food1 = new Food(1050, yPos - 70, 300,70, SCROLL_SPEED);
         this.food2 = new Food(food1.getTailX() + GAP, yPos - 70, 300,70, SCROLL_SPEED);
-        this.isScroll = true;
+        this.isScroll = false;
     }
 
     public void update(float delta) {
@@ -61,6 +61,14 @@ public class ScrollHandler {
         tableCloth1.stop();
         tableCloth2.stop();
         tableCloth3.stop();
+    }
+
+    public void onRestart() {
+        tableCloth1.reset(0);
+        tableCloth2.reset(tableCloth1.getTailX());
+        tableCloth3.reset(tableCloth2.getTailX());
+        food1.reset(1050);
+        food2.reset(food1.getTailX() + GAP);
     }
 
     public boolean collides(Swatter swatter) {

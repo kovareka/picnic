@@ -11,6 +11,10 @@ import com.lovkov.picnic.gameobjects.*;
 import com.lovkov.picnic.helpers.AssetLoader;
 
 public class GameRenderer {
+    private static final String START = "Press SPACE for start";
+    private static final String GAMEOVER = "Game Over!";
+    private static final String TRY_AGAIN = "Press SPACE for restart";
+
     private GameWorld world;
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
@@ -92,8 +96,29 @@ public class GameRenderer {
                     fly.getHeight());
         }
 
-        AssetLoader.shadow.draw(batcher, "" + world.getScore(), 0, 0);
-        AssetLoader.font.draw(batcher, "" + world.getScore(), 0, 0);
+        if (world.isRunning()) {
+            AssetLoader.shadow.draw(batcher, "" + world.getScore(), 0, 0);
+            AssetLoader.font.draw(batcher, "" + world.getScore(), 0, 0);
+        }
+
+        if (world.isReady()) {
+            AssetLoader.shadow.draw(batcher, START, 400 - START.length() * 26 / 2, 150);
+            AssetLoader.font.draw(batcher, START, 400 - START.length() * 26 / 2, 150);
+        } else {
+            if (world.isGameOver() || world.isHighScore()) {
+                AssetLoader.flap.stop();
+                AssetLoader.shadow.draw(batcher, GAMEOVER, 400 - GAMEOVER.length() * 26 / 2, 90);
+                AssetLoader.font.draw(batcher, GAMEOVER, 400 - GAMEOVER.length() * 26 / 2, 90);
+
+                String score = "Score: " + world.getScore() + " Top: " + AssetLoader.getHighScore();
+
+                AssetLoader.shadow.draw(batcher, score, 400 - score.length() * 26 / 2, 130);
+                AssetLoader.font.draw(batcher, score, 400 - score.length() * 26 / 2, 130);
+
+                AssetLoader.shadow.draw(batcher, TRY_AGAIN, 400 - TRY_AGAIN.length() * 26 / 2, 170);
+                AssetLoader.font.draw(batcher, TRY_AGAIN, 400 - TRY_AGAIN.length() * 26 / 2, 170);
+            }
+        }
 
         batcher.end();
     }

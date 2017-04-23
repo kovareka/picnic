@@ -2,6 +2,7 @@ package com.lovkov.picnic.gameobjects;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lovkov.picnic.helpers.AssetLoader;
 import com.lovkov.picnic.helpers.Direction;
 
 public class Fly {
@@ -73,6 +74,12 @@ public class Fly {
                 isScroll = false;
             }
         }
+
+        if (isFlies() && isAlive()) {
+            AssetLoader.flap.loop(0.1f);
+        } else {
+            AssetLoader.flap.stop();
+        }
     }
 
     public void move(Direction direction, boolean isMove) {
@@ -126,6 +133,14 @@ public class Fly {
                 position.x = food.getTailX() - width;
             }
         }
+    }
+
+    public void onRestart() {
+        position.x = startPosition.x;
+        position.y = startPosition.y;
+        velocity.x = 0;
+        velocity.y = 0;
+        isAlive = true;
     }
 
     public void setScroll(boolean scroll) {
